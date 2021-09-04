@@ -18,7 +18,7 @@ def tokens_lowercase(doc):
     tok = metapy.analyzers.Porter2Filter(tok)
     ana = metapy.analyzers.NGramWordAnalyzer(3, tok)
     trigrams = ana.analyze(doc)
-    #print('Trigrams::::',trigrams)
+   
 
 
 

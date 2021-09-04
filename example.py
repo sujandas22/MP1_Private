@@ -1,12 +1,26 @@
 import metapy
 
 def tokens_lowercase(doc):
-    #sujan Write a token stream that tokenizes with ICUTokenizer (use the argument "suppress_tags=True"), 
+    #Write a token stream that tokenizes with ICUTokenizer (use the argument "suppress_tags=True"),
     #lowercases, removes words with less than 2 and more than 5  characters
     #performs stemming and creates trigrams (name the final call to ana.analyze as "trigrams")
     '''Place your code here'''
-    
-    #leave the rest of the code as is
+
+    tok = metapy.analyzers.ICUTokenizer(suppress_tags=True)
+    tok = metapy.analyzers.LowercaseFilter(tok)
+    tok.set_content(doc.content())
+    tokens = [token for token in tok]
+    #print('Token with suppress and lower::',tokens)
+    tok = metapy.analyzers.LengthFilter(tok, min=2, max=5)
+    tok.set_content(doc.content())
+    tokens = [token for token in tok]
+    #print('After filter::',tokens)
+
+    ana = metapy.analyzers.NGramWordAnalyzer(3, tok)
+    trigrams = ana.analyze(doc)
+    #print('Trigrams::',trigrams)
+
+    # leave the rest of the code as is
     tok.set_content(doc.content())
     tokens, counts = [], []
     for token, count in trigrams.items():
